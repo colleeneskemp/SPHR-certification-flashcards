@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPHR Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Spectral:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4efe4;
+    --paper-deep: #ebe3d2;
+    --ink: #20271f;
+    --green: #2f4734;
+    --green-soft: #4a6450;
+    --terracotta: #b6553f;
+    --gold: #b08a3e;
+    --line: #cdc2a8;
+    --shadow: rgba(32, 39, 31, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Spectral', Georgia, serif;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(176,138,62,0.07), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(47,71,52,0.08), transparent 50%),
+      var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 2.5rem 1.25rem 4rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 680px; margin: 0 auto; }
+
+  header { text-align: center; margin-bottom: 2rem; }
+
+  .eyebrow {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: var(--green-soft);
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2.2rem, 7vw, 3.1rem);
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: var(--green);
+  }
+
+  h1 .em { color: var(--terracotta); }
+
+  .progress-line {
+    margin-top: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--green-soft);
+    font-style: italic;
+  }
+
+  /* Filter chips */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1.75rem;
+  }
+
+  .chip {
+    font-family: 'Spectral', serif;
+    font-size: 0.84rem;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--green-soft);
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .chip:hover { border-color: var(--green-soft); color: var(--green); }
+  .chip.active {
+    background: var(--green);
+    color: var(--paper);
+    border-color: var(--green);
+  }
+  .chip .ct { opacity: 0.6; font-style: italic; margin-left: 0.3rem; }
+
+  /* Card */
+  .card {
+    position: relative;
+    background: linear-gradient(160deg, #fbf8f0, #f1ead9);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    min-height: 320px;
+    padding: 2.4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 18px 40px -22px var(--shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    user-select: none;
+  }
+  .card:hover { box-shadow: 0 22px 46px -22px var(--shadow); }
+  .card:active { transform: scale(0.995); }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(176,138,62,0.3);
+    border-radius: 9px;
+    pointer-events: none;
+  }
+
+  .card-area {
+    position: absolute;
+    top: 1.1rem;
+    left: 1.4rem;
+    right: 4.5rem;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+
+  .card-side {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green-soft);
+    opacity: 0.65;
+  }
+
+  .card-body {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(1.3rem, 3.6vw, 1.7rem);
+    line-height: 1.35;
+    text-align: center;
+    color: var(--ink);
+    margin-top: 0.5rem;
+  }
+
+  .card.is-answer .card-body {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1.02rem, 2.9vw, 1.18rem);
+    line-height: 1.55;
+    text-align: left;
+  }
+
+  .flip-hint {
+    margin-top: 1.4rem;
+    text-align: center;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--green-soft);
+    opacity: 0.7;
+  }
+
+  /* Controls */
+  .judge {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+  .judge button {
+    flex: 1;
+    font-family: 'Spectral', serif;
+    font-size: 0.98rem;
+    padding: 0.85rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: all 0.16s ease;
+    background: var(--paper-deep);
+    color: var(--ink);
+  }
+  .judge .still:hover { border-color: var(--terracotta); color: var(--terracotta); }
+  .judge .got:hover { border-color: var(--green); color: var(--green); }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--green-soft);
+  }
+  .nav button {
+    font-family: 'Spectral', serif;
+    background: none;
+    border: none;
+    color: var(--green-soft);
+    cursor: pointer;
+    font-size: 0.92rem;
+    padding: 0.3rem 0.2rem;
+  }
+  .nav button:hover { color: var(--terracotta); }
+  .count { font-style: italic; }
+
+  .toolbar {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: center;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    font-family: 'Spectral', serif;
+    background: none;
+    border: none;
+    border-bottom: 1px dotted var(--green-soft);
+    color: var(--green-soft);
+    cursor: pointer;
+    padding-bottom: 1px;
+  }
+  .toolbar button:hover { color: var(--terracotta); border-color: var(--terracotta); }
+
+  .status-tag {
+    display: inline-block;
+    margin-top: 0.9rem;
+    font-size: 0.78rem;
+    font-style: italic;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+  }
+  .tag-got { background: rgba(47,71,52,0.12); color: var(--green); }
+  .tag-still { background: rgba(182,85,63,0.14); color: var(--terracotta); }
+
+  .done {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    color: var(--green);
+    line-height: 1.4;
+  }
+  .done span { display:block; font-family:'Spectral',serif; font-style:italic; font-size:1rem; color:var(--green-soft); margin-top:0.75rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">a quiet place to study</div>
+    <h1>SPHR Flash<span class="em">cards</span></h1>
+    <div class="progress-line" id="progress">&nbsp;</div>
+  </header>
+
+  <div class="filters" id="filters"></div>
+  <div id="stage"></div>
+
+  <div class="toolbar">
+    <button id="shuffle">Shuffle</button>
+    <button id="onlyStill">Review what's hard</button>
+    <button id="reset">Reset progress</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CARDS - edit freely. Add as many as you like.
+   area must match one of the keys in AREAS below.
+   { area: "...", q: "front of card", a: "back of card" }
+   ============================================================ */
+
+const AREAS = {
+  strat: { name: "Leadership & Strategy" },
+  motiv: { name: "Motivation & OB Theories" },
+  wpta:  { name: "Workforce Planning & Talent Acquisition" },
+  tm:    { name: "Talent Management & Development" },
+  tr:    { name: "Total Rewards" },
+  law:   { name: "Federal Laws, Agencies & Compliance" },
+  er:    { name: "Employee & Labor Relations" }
+};
+
+const CARDS = [
+  // ---------- Leadership & Strategy ----------
+  { area:"strat", q:"SWOT analysis: the four elements, and which are internal vs external?",
+    a:"Strengths, Weaknesses, Opportunities, Threats. Strengths and Weaknesses are internal to the organization. Opportunities and Threats are external. A broad tool for sizing up an org's strategic position." },
+  { area:"strat", q:"PESTLE analysis: what does it scan, and how is it different from SWOT?",
+    a:"Political, Economic, Social, Technological, Legal, Environmental. It scans the external macro-environment only (no internal factors), used to anticipate outside risks and opportunities. PEST is the shorter version." },
+  { area:"strat", q:"Name Porter's Five Forces and the core premise.",
+    a:"Competitive rivalry, bargaining power of suppliers, bargaining power of buyers/customers, threat of new entrants, threat of substitute products. Premise: the stronger a force, the lower the industry's profitability. Government oversight is NOT one of the five." },
+  { area:"strat", q:"What is a cost leadership strategy, and how does HR support it?",
+    a:"Competing by being the lowest-cost producer while keeping acceptable quality. It runs on efficiency, scale, tight cost control, and standardization. HR supports it through workforce planning to manage labor costs, training for efficiency, and hiring for high-volume standardized work. Contrast with differentiation, which competes on unique features or quality." },
+  { area:"strat", q:"The Balanced Scorecard: its four perspectives.",
+    a:"Financial, Customer, Internal Business Processes, and Learning & Growth (Kaplan & Norton). It translates strategy into measurable goals across all four, not just financial." },
+  { area:"strat", q:"Correct order of the strategic planning process.",
+    a:"1) Analyze data, 2) Develop objectives and goals, 3) Implement solutions, 4) Monitor progress. Goals are informed by analysis, implementation follows goal-setting, and monitoring comes last." },
+  { area:"strat", q:"Order for establishing an organization's direction: mission, vision, values, goals?",
+    a:"1) Mission (who we are and why we exist now), 2) Vision (the future we aspire to, forward-looking), 3) Values (core beliefs), 4) Goals. Mission, vision, and values guide behavior and anchor workforce and operational strategy." },
+  { area:"strat", q:"What is typically true of strategic plans?",
+    a:"They are built from mission, vision, values, and goals. They usually span 3 to 5 years. And they contribute to profitability and other organizational outcomes." },
+  { area:"strat", q:"The four mainstay organizational structures: what does each mean?",
+    a:"Functional: grouped by specialty (HR, finance, marketing). Divisional: grouped by product, market, or geography, each fairly self-contained. Matrix: employees report on two lines at once (for example functional plus project). Hybrid: a blend of functional and divisional elements." },
+  { area:"strat", q:"Bylaws vs. corporate governance policy.",
+    a:"Bylaws are the legally required operating rules every corporation must have: elections, meetings, quorum, officers, voting, amendments. A governance policy is broader and includes the bylaws plus ethics, conflict-of-interest rules, financial controls, risk management, compliance, stakeholder relations, and executive comp." },
+  { area:"strat", q:"Sarbanes-Oxley Act (2002): what triggered it and what does it require?",
+    a:"Passed after the Enron and WorldCom accounting-fraud collapses. Key requirements: CEO and CFO personally certify financial statements (Sec 302, with criminal liability), document and test internal financial controls (Sec 404), criminalized destroying documents during investigations (Sec 802), auditor independence (no auditing plus consulting for the same client), and whistleblower protections." },
+  { area:"strat", q:"Who enforces SOX whistleblower protections, and under what section?",
+    a:"OSHA enforces them, granted under Section 806 of SOX. Employees who report corrupt or unsafe practices are protected from employer retaliation." },
+  { area:"strat", q:"Distinguish operational, legal, compliance, and security risk.",
+    a:"Operational: loss from failed internal processes, people, systems, or controls (for example embezzlement). Legal: failing a legal obligation such as a contract. Compliance: failing a regulatory requirement (for example not paying required overtime). Security or cyber: unauthorized access to data, such as a hacker breach." },
+  { area:"strat", q:"Name common decision-making tools and methods.",
+    a:"Evidence-based decision making, group decision making / problem solving, and the Delphi technique. (A made-up 'change technique' is not a real decision-making method.)" },
+  { area:"strat", q:"What is the Delphi technique?",
+    a:"A structured method that gathers input from a panel of experts across multiple anonymous rounds, feeding back summarized responses each round, until the group converges toward consensus." },
+  { area:"strat", q:"Correct order of steps in a data management program.",
+    a:"1) Data input, 2) Data storage, 3) Data protection, 4) Data audit. Data must be entered and retained before it can be protected, and audits come last to verify integrity and that controls work." },
+  { area:"strat", q:"Beyond integration, scalability, flexibility, and security, what is an often-overlooked consideration for HR digitization?",
+    a:"User training and adoption. Tools only pay off if HR staff and employees are trained to use them, supported by change management to drive adoption." },
+  { area:"strat", q:"Edgar Schein's three levels of organizational culture.",
+    a:"1) Artifacts: what you can see, hear, or feel (dress code, codes of conduct, visible behavior). 2) Espoused values: what the company says it values through mission, vision, and rules. 3) Underlying or assumed values: the unconscious assumptions employees hold about what's really valued, revealed by what gets rewarded or punished." },
+  { area:"strat", q:"Geert Hofstede's cultural dimensions.",
+    a:"Power distance, uncertainty avoidance, individualism vs collectivism, long-term vs short-term orientation, indulgence vs restraint, and masculinity vs femininity. Hofstede defined culture as the collective programming of the mind that distinguishes one group from another." },
+  { area:"strat", q:"Edward Hall's high-context vs low-context communication.",
+    a:"Low-context (US, Australia, much of Europe): meaning is explicit and stated in words, communication is direct. High-context (Japan, China, Arab countries, Russia): meaning comes from context, relationships, and what is left unsaid, communication is indirect. Matters for avoiding misreads on diverse and international teams." },
+  { area:"strat", q:"Henry Mintzberg's view on managing vs leading.",
+    a:"He argues the two are inseparable: today's leaders must manage and today's managers must lead. Neither is superior. Management is a practice that blends both." },
+  { area:"strat", q:"What is organizational behavior (OB)?",
+    a:"The study and management of people within and between individual, group, and organizational levels. It is both theory-based and practically applied. Core insight: how people are treated, and how they believe they're being treated, shapes performance, which is why it drives HR program and policy design." },
+  { area:"strat", q:"How do worker cooperatives avoid double taxation? (Subchapter T and patronage)",
+    a:"Under IRS Subchapter T, a co-op can deduct patronage dividends (surplus returned to members based on their participation or labor, not on ownership shares) as a business expense, avoiding corporate-level tax on those amounts. Members then pay personal income tax on what they receive. The result is effectively single taxation inside a corporate structure." },
+  { area:"strat", q:"What distinguishes a cooperative from a standard corporation?",
+    a:"Democratic member control (one member, one vote, not based on investment), members are often the workers, consumers, or producers, profits are distributed as patronage based on participation rather than ownership shares, and there is limited return on equity. Types include worker, producer, consumer, and multi-stakeholder co-ops." },
+  { area:"strat", q:"Why do S-corps (or S-elected LLCs) split pay into salary plus distributions?",
+    a:"A shareholder-employee must first pay themselves a 'reasonable' W-2 salary for work performed, which carries payroll taxes. Profit beyond that can be taken as distributions, which are not subject to self-employment tax. The IRS scrutinizes whether the salary is truly reasonable for the role to prevent abuse." },
+  { area:"strat", q:"What is contract manufacturing?",
+    a:"Outsourcing the production of goods, often private-label products, to an external manufacturer to increase market share or reduce costs. It happens outside the parent company." },
+
+  // ---------- Motivation & OB Theories ----------
+  { area:"motiv", q:"Maslow's hierarchy of needs, from most basic to most complex.",
+    a:"1) Physiological, 2) Safety and security, 3) Love and belonging, 4) Esteem, 5) Self-actualization. Lower needs are generally met before higher growth needs. The commonly tested point is the order, basic survival up to self-actualization." },
+  { area:"motiv", q:"Herzberg's Two-Factor (Motivation-Hygiene) Theory.",
+    a:"Splits motivation into two distinct categories. Hygiene factors are extrinsic (pay, benefits, working conditions): their absence causes dissatisfaction, but their presence does not truly motivate. Motivators are intrinsic (recognition, achievement, growth, meaningful work): these actually raise motivation and performance." },
+  { area:"motiv", q:"Reactance theory, and why it matters in HR.",
+    a:"When people perceive their freedom or autonomy is being threatened or restricted, they are motivated to restore it, often through defiance, disobedience, or doing the prohibited thing. HR relevance: a poorly communicated change, like converting PTO to discretionary time off, can trigger fear and resistance even when well-intentioned." },
+  { area:"motiv", q:"Alderfer's ERG theory.",
+    a:"Condenses Maslow into three core needs that drive behavior: Existence, Relatedness, and Growth. Unlike Maslow, more than one can be pursued at once, and frustration at a higher need can push a person back toward a lower one." },
+  { area:"motiv", q:"McClelland's Need Theory (acquired needs).",
+    a:"Identifies three needs that motivate people to differing degrees: need for Achievement, need for Affiliation, and need for Power. These needs are learned over time rather than innate." },
+  { area:"motiv", q:"Vroom's Expectancy Theory.",
+    a:"Effort and performance depend on expectations: that effort will lead to performance, that performance will lead to a reward, and that the reward is something the employee actually values. Only valued rewards motivate." },
+  { area:"motiv", q:"What is the overjustification effect?",
+    a:"Adding an unnecessary or excessive extrinsic reward to a task someone is already intrinsically motivated to do can actually reduce their motivation. More reward is not always more motivating, and can backfire." },
+  { area:"motiv", q:"Halo effect vs. horn (reverse halo) effect.",
+    a:"Halo: one positive trait or a good overall impression makes us assume other unrelated positive qualities. Horn: one negative trait makes us assume other negative qualities. A cognitive bias (Thorndike, 1920) that distorts evaluations and interviews." },
+
+  // ---------- Workforce Planning & Talent Acquisition ----------
+  { area:"wpta", q:"What is workforce planning?",
+    a:"The strategic process of analyzing, forecasting, and planning so the organization has the right people, with the right skills, in the right places, at the right time, and at the right cost. It identifies gaps between the current and needed workforce and how to close them: hire, train, reorganize, or outsource." },
+  { area:"wpta", q:"Distinguish unit demand, turnover forecasting, trend projection, and scenario planning.",
+    a:"Unit demand: forecast headcount for a specific department or business unit based on projected need, for example staffing a new store modeled on similar existing stores. Turnover forecasting: estimate how many employees will leave. Trend projection: project from historical business trends, like seasonal increases. Scenario planning: build multiple plans for different possible futures." },
+  { area:"wpta", q:"Classify these workforce-planning inputs: business objectives, turnover/retention data, industry growth forecasts, manager focus groups on future skills.",
+    a:"Business objectives = Strategic (long-term direction). Turnover and retention data = Internal (quantitative metrics from inside the org). Industry growth forecasts = External (outside labor market and industry). Manager focus groups on future skills = Qualitative (non-numerical expert judgment)." },
+  { area:"wpta", q:"Title VII: protections, threshold, and enforcing agency. (acquisition relevance)",
+    a:"Prohibits employment discrimination based on race, color, religion, sex, or national origin, including in hiring and selection. Applies to employers with 15 or more employees. Enforced by the EEOC." },
+  { area:"wpta", q:"Adverse impact and the four-fifths (80%) rule.",
+    a:"If a protected group's selection rate is less than 80% of the rate for the group with the highest selection rate, it signals possible adverse (disparate) impact and warrants a closer look. Disparate impact is unintentional, from a neutral practice. Disparate treatment is intentional discrimination." },
+
+  // ---------- Talent Management & Development ----------
+  { area:"tm", q:"What practices make up integrated talent management?",
+    a:"Succession planning, performance management, and compensation management, working together as a connected system. Payroll processing is an administrative task, not part of integrated talent management." },
+  { area:"tm", q:"Match these instructional design models: ADDIE, SAM, ARCS, Gagne's Nine Events, Kirkpatrick.",
+    a:"ADDIE: the classic 5-phase design process. SAM (Successive Approximation Model): flexible, iterative, rapid prototyping. ARCS: a motivation model (Attention, Relevance, Confidence, Satisfaction). Gagne's Nine Events: a sequence of instructional events for a lesson. Kirkpatrick: a training evaluation model, not a design model." },
+  { area:"tm", q:"The five phases of ADDIE.",
+    a:"Analysis, Design, Development, Implementation, Evaluation. A systematic framework for building training." },
+  { area:"tm", q:"Which instructional design model is flexible and iterative?",
+    a:"SAM, the Successive Approximation Model. Unlike linear ADDIE, it uses rapid cycles of prototyping and revision." },
+  { area:"tm", q:"Kirkpatrick's four levels of training evaluation.",
+    a:"1) Reaction (did they like it), 2) Learning (did they learn it), 3) Behavior (are they applying it on the job), 4) Results (did it affect business outcomes)." },
+  { area:"tm", q:"Mentoring, tuition reimbursement, and VR training primarily support which HR function?",
+    a:"Employee development (learning and development). Mentoring and tuition reimbursement build skills and growth. VR training's standout benefit is realism in simulated practice." },
+  { area:"tm", q:"What is the purpose of succession planning?",
+    a:"Identifying and developing internal talent to fill key leadership and critical roles in the future. It reduces risk from departures and supports continuity, and it is part of integrated talent management." },
+
+  // ---------- Total Rewards ----------
+  { area:"tr", q:"What does 'total rewards' include beyond base pay?",
+    a:"Compensation (base plus variable pay), benefits, work-life programs, recognition, and development opportunities. It is the full value an employee receives, not just salary." },
+  { area:"tr", q:"Defined benefit vs. defined contribution retirement plans.",
+    a:"Defined benefit: the plan promises a set payout at retirement, and the employer bears the investment risk. Defined contribution (like a 401k): defines how much goes in, and the payout depends on the account balance at distribution, with the employee bearing the risk. Both are tax-deferred and taxed at distribution." },
+  { area:"tr", q:"Which retirement plans can a private, for-profit company offer? (401k, 403b, SEP IRA, Traditional IRA)",
+    a:"401(k): the standard qualified plan for private for-profit companies. SEP IRA: an employer of any size can set one up. 403(b): only for tax-exempt orgs such as 501(c)(3) nonprofits and public schools, not private companies. Traditional IRA: an individual arrangement, not employer-provided." },
+  { area:"tr", q:"ADP test vs. ACP test (401k nondiscrimination).",
+    a:"Both compare highly compensated employees (HCEs) to non-highly compensated employees (NHCEs). The ADP (Actual Deferral Percentage) test looks at employee elective deferrals. The ACP (Actual Contribution Percentage) test looks at employer matching and after-tax contributions. The separate 60%-of-balances rule is the top-heavy test." },
+  { area:"tr", q:"HMO vs PPO vs POS vs HSA: which let you go out-of-network?",
+    a:"PPO: most flexible, covers in-network and out-of-network (lower cost in-network), no referral needed. POS: a hybrid of HMO and PPO, requires a primary care physician and referrals but allows some out-of-network. HMO: in-network only, no out-of-network coverage. HSA: not a plan at all, it is a pre-tax savings account for IRS-eligible medical expenses, paired with a high-deductible plan." },
+  { area:"tr", q:"Medicare Parts A, B, C, and D, and which is typically premium-free.",
+    a:"Part A (hospital insurance): usually premium-free if you or your spouse paid enough Medicare taxes while working. Part B (medical and outpatient): has a premium. Part C (Medicare Advantage, private bundled plans): has premiums and costs. Part D (prescription drugs): has a premium." },
+  { area:"tr", q:"Whole job method vs. factor-based (quantitative) job evaluation.",
+    a:"Whole job methods compare jobs against each other as a whole: this job needs more skill than that one, so it pays more. Factor-based or quantitative methods (also called nontraditional) assign a point value to each compensable factor and total them. Whole-job is comparative, factor-based is point-based." },
+  { area:"tr", q:"Red circle, green circle, and wage compression.",
+    a:"Red circle: an employee paid above the pay grade's maximum. Green circle: an employee paid below the pay grade's minimum. Wage compression: when tenured employees earn about the same as new hires because pay did not keep up with the market. (Job crafting is unrelated, it is an employee reshaping their own role.)" },
+  { area:"tr", q:"FLSA on-call time: 'engaged to wait' vs 'waiting to be engaged.'",
+    a:"Engaged to wait = compensable: the employee must stay available and cannot use the time freely for personal purposes. Waiting to be engaged = generally not compensable: the employee is free to use the time for personal activities while just remaining reachable." },
+  { area:"tr", q:"What does the Portal-to-Portal Act (1947) clarify?",
+    a:"An amendment to the FLSA that clarifies which pre-shift, post-shift, and travel activities are paid. Ordinary commuting and preliminary or postliminary tasks are generally unpaid unless they are integral and indispensable to the job." },
+  { area:"tr", q:"Appropriate channels for communicating total rewards information and changes.",
+    a:"Use the full range that reaches employees: confidential email, virtual or in-person meetings, printed documents, the intranet, and internal company social channels for high-level awareness and reminders. Keep anything sensitive off public or social channels and route private data through secure methods." },
+
+  // ---------- Federal Laws, Agencies & Compliance ----------
+  { area:"law", q:"The federal employment-law headcount ladder (when each one kicks in).",
+    a:"1+ (essentially all): FLSA, Equal Pay Act, OSHA, USERRA, IRCA (I-9), Section 1981, EPPA. 4+: IRCA anti-discrimination provision. 15+: Title VII, ADA Title I, GINA, PWFA. 20+: ADEA, COBRA. 50+: FMLA, ACA employer mandate. 100+: WARN Act." },
+  { area:"law", q:"Which major employment laws apply to essentially every employer regardless of headcount (1+)?",
+    a:"FLSA (wage and hour), the Equal Pay Act, OSHA, USERRA (military service), IRCA (I-9 verification), Section 1981 (race discrimination, from the 1866 Civil Rights Act), and EPPA (polygraph). By contrast, the main anti-discrimination laws kick in by size: Title VII, ADA Title I, GINA, and PWFA at 15, ADEA at 20." },
+  { area:"law", q:"Title VII of the Civil Rights Act of 1964.",
+    a:"Prohibits employment discrimination based on race, color, religion, sex, or national origin. 15 or more employees. Enforced by the EEOC." },
+  { area:"law", q:"Americans with Disabilities Act (ADA).",
+    a:"Requires reasonable accommodation for qualified individuals with disabilities unless it causes undue hardship, and prohibits disability discrimination. 15 or more employees. Enforced by the EEOC." },
+  { area:"law", q:"Age Discrimination in Employment Act (ADEA).",
+    a:"Protects workers age 40 and older from age-based discrimination. 20 or more employees. Enforced by the EEOC." },
+  { area:"law", q:"FMLA's two gates: employer coverage vs. employee eligibility.",
+    a:"They are separate tests, and clearing one does not satisfy the other (the most common point of confusion). Gate 1, is the EMPLOYER covered: a private employer with 50+ employees within 75 miles for 20+ workweeks this year or last (public agencies and schools are covered regardless of size). Gate 2, is the EMPLOYEE eligible: worked 12 months (not necessarily consecutive), worked 1,250 hours in the prior 12 months, AND works at a site with 50+ employees within 75 miles. A covered employer owes leave only to employees who pass Gate 2, so a new hire or part-timer can have no entitlement. Enforced by the DOL." },
+  { area:"law", q:"Fair Labor Standards Act (FLSA).",
+    a:"Sets federal minimum wage, overtime (1.5x the regular rate over 40 hours per week for non-exempt employees), recordkeeping, and child labor rules. No employee-count threshold, it covers most employers through enterprise or individual coverage. Enforced by the DOL." },
+  { area:"law", q:"Equal Pay Act of 1963.",
+    a:"Requires equal pay for men and women performing substantially equal work (equal skill, effort, responsibility, similar conditions) in the same establishment. Differences are allowed for seniority, merit, quantity or quality of output, or any factor other than sex. An amendment to the FLSA, enforced by the EEOC." },
+  { area:"law", q:"Genetic Information Nondiscrimination Act (GINA).",
+    a:"Prohibits discrimination based on genetic information and bars employers from requesting or using it. 15 or more employees. Enforced by the EEOC." },
+  { area:"law", q:"Pregnancy Discrimination Act (PDA).",
+    a:"Amends Title VII to prohibit discrimination based on pregnancy, childbirth, or related conditions. Pregnant employees must be treated like others who are similar in their ability to work. 15 or more employees, EEOC." },
+  { area:"law", q:"Pregnant Workers Fairness Act (PWFA).",
+    a:"Requires reasonable accommodations for known limitations related to pregnancy, childbirth, or related conditions, absent undue hardship (took effect 2023). 15 or more employees, enforced by the EEOC. This one is recent, so confirm current details before the exam." },
+  { area:"law", q:"National Labor Relations Act (NLRA, the Wagner Act).",
+    a:"Protects most private-sector employees' Section 7 rights to engage in protected concerted activity, including organizing and discussing wages and working conditions, whether or not a union exists. Enforced by the NLRB." },
+  { area:"law", q:"Occupational Safety and Health Act (and OSHA the agency).",
+    a:"Requires employers to provide a workplace free from recognized serious hazards and to meet OSHA standards. Covers most private employers. OSHA, within the DOL, sets and enforces standards and also enforces many whistleblower protections." },
+  { area:"law", q:"Employee Retirement Income Security Act (ERISA).",
+    a:"Sets minimum standards for most private-sector pension and welfare benefit plans: fiduciary duties, vesting, funding, reporting, and disclosure. Enforced primarily by the DOL, with roles for the IRS and PBGC." },
+  { area:"law", q:"COBRA.",
+    a:"Lets employees and dependents continue group health coverage after a qualifying event, typically for 18 or 36 months. Generally applies to employers with 20 or more employees. The individual usually pays the full premium plus a small admin fee." },
+  { area:"law", q:"HIPAA (employment and benefits context).",
+    a:"Protects the privacy and security of health information and limits how group health plans use it, and addresses portability of coverage. Overseen by HHS. Relevant to benefits administration and handling employee health data." },
+  { area:"law", q:"Worker Adjustment and Retraining Notification (WARN) Act.",
+    a:"Requires employers with 100 or more employees to give 60 days' advance notice of a plant closing or mass layoff. Operates through the DOL framework with a private right of action." },
+  { area:"law", q:"Immigration Reform and Control Act (IRCA).",
+    a:"Requires employers to verify identity and work authorization for every new hire using Form I-9, and prohibits knowingly employing unauthorized workers. All employers must comply with I-9; its anti-discrimination provision (national origin and citizenship status) starts at 4+ employees. Administered through DHS / USCIS, with anti-discrimination handled by the DOJ." },
+  { area:"law", q:"Uniformed Services Employment and Reemployment Rights Act (USERRA).",
+    a:"Protects the job and reemployment rights of people who leave work to serve in the uniformed services, and prohibits service-related discrimination. Applies to all employers regardless of size. Enforced by the DOL (VETS)." },
+  { area:"law", q:"Lilly Ledbetter Fair Pay Act (2009).",
+    a:"Resets the statute-of-limitations clock for pay-discrimination claims with each discriminatory paycheck, rather than only from the original pay decision. Tied to Title VII and EEOC enforcement." },
+  { area:"law", q:"What does the EEOC do, and which laws does it enforce?",
+    a:"The Equal Employment Opportunity Commission enforces the federal anti-discrimination employment laws: Title VII, ADA, ADEA, GINA, the Equal Pay Act, the PDA, and the PWFA. It investigates charges and can pursue enforcement." },
+  { area:"law", q:"What does the Department of Labor (DOL) oversee in HR?",
+    a:"Wage and hour (FLSA), FMLA, workplace safety (OSHA), benefit plans (ERISA), USERRA, and WARN, among others. The DOL houses agencies like OSHA and the Wage and Hour Division." },
+  { area:"law", q:"What is the International Labour Organization (ILO)?",
+    a:"A United Nations agency that is the global authority on labor standards and promotes international labor rights. It also recognizes cooperatives as a distinct employment model with their own frameworks. It is not a US federal regulation." },
+  { area:"law", q:"FMLA: the qualifying reasons, and when leave is 12 weeks vs 26.",
+    a:"Up to 12 weeks for: birth and care of a newborn (within a year), placement of a child for adoption or foster care (within a year), caring for a spouse, child, or parent with a serious health condition, the employee's own serious health condition, or a qualifying exigency from a family member's covered military active duty. The larger entitlement is up to 26 weeks in a single 12-month period for military caregiver leave (caring for a covered servicemember with a serious injury or illness)." },
+  { area:"law", q:"What protections come with FMLA leave?",
+    a:"Job restoration to the same or an equivalent job (same pay, benefits, terms). Group health benefit continuation on the same terms as if still working. The leave is unpaid, but accrued paid leave may run concurrently (the employee may choose, or the employer may require it). Intermittent or reduced-schedule leave when medically necessary. And protection from interference or retaliation for using FMLA rights." },
+  { area:"law", q:"Section 1981 (42 U.S.C. 1981): what it covers and why it matters.",
+    a:"From the Civil Rights Act of 1866, it guarantees all persons the same right to make and enforce contracts regardless of race. Because employment is contractual, it reaches race discrimination in hiring, firing, and terms. Critically, it applies to ALL employers regardless of size, with no 15-employee floor like Title VII. It is the 'sleeper' that does for race what people assume Title VII does." },
+  { area:"law", q:"Employee Polygraph Protection Act (EPPA, 1988).",
+    a:"Restricts most private employers from using lie detector tests on employees or applicants, with only narrow exceptions. Applies to most private employers of any size (1+)." },
+  { area:"law", q:"At what size does the ACA employer mandate apply?",
+    a:"50 or more full-time equivalent employees (an 'applicable large employer'). At that size the employer must offer affordable, minimum-value health coverage to full-time employees or face potential penalties. Note this is the same 50-employee line as FMLA." },
+  { area:"law", q:"ADA Title I vs. Title III (resolving the 'why 15?' surprise).",
+    a:"Title I (employment) applies at 15+ employees, this is the discrimination-in-employment piece. Title III (public accommodations) applies to any business open to the public regardless of size. So a 4-person cafe has no Title I employment obligations but must still be accessible to customers under Title III. The two are often conflated." },
+  { area:"law", q:"Is workplace harassment protection a 'one-employee' law?",
+    a:"No, not federally. Harassment protection is built on Title VII, which applies at 15+ employees. Many state fair-employment laws set a far lower bar, sometimes a single employee, which is why harassment claims at very small employers often proceed under state law." },
+  { area:"law", q:"Why can a policy banning employees from discussing pay violate the NLRA?",
+    a:"Section 7 concerted-activity protections apply even in non-union workplaces. Two or more employees discussing wages or working conditions are engaged in protected concerted activity, so a blanket rule forbidding pay discussion can be an unfair labor practice." },
+  { area:"law", q:"NLRA Section 8: what are unfair labor practices (ULPs)?",
+    a:"Section 8 defines prohibited conduct. Employer ULPs (8(a)) include interfering with Section 7 rights, dominating or supporting a union, discriminating against employees for union activity, retaliating against those who file charges or testify, and refusing to bargain in good faith. Later amendments added union-side ULPs. The NLRB investigates and remedies them." },
+  { area:"law", q:"NLRA: who is covered and who is excluded?",
+    a:"Covers most private-sector employers whose business affects interstate commerce (the threshold is commerce and revenue-based, not a headcount), union or not. Excluded: federal, state, and local government employers, railway and airline employees (Railway Labor Act), agricultural laborers, domestic workers, independent contractors, and supervisors." },
+  { area:"law", q:"The two major NLRA amendments: Taft-Hartley and Landrum-Griffin.",
+    a:"Taft-Hartley (1947), the Labor Management Relations Act: added union unfair labor practices and let states pass right-to-work laws. Landrum-Griffin (1959), the Labor Management Reporting and Disclosure Act: governs internal union affairs and includes a union members' bill of rights." },
+
+  // ---------- Employee & Labor Relations ----------
+  { area:"er", q:"Just cause vs. at-will employment in terminations.",
+    a:"At-will (non-union): you generally do not need a stated reason to terminate. Under a union CBA: you typically must show just cause, meaning discipline was fair, consistent, and proportionate, and the worker had prior notice the conduct was a problem. Terminations without just cause can be grieved and reversed, including reinstatement with back pay." },
+  { area:"er", q:"What are the 'seven tests of just cause' used for?",
+    a:"Developed by arbitrator Carroll Daugherty, arbitrators use them to judge whether discipline was justified. They ask questions like: Was the rule reasonable? Was the employee warned? Was the rule consistently enforced? Was the investigation thorough and fair? Was the penalty proportionate?" },
+  { area:"er", q:"Weingarten rights.",
+    a:"A unionized employee's right to request union representation during an investigatory interview they reasonably believe could lead to discipline. You are not required to inform them of this right, but you must honor it when invoked, or the resulting discipline can be invalidated." },
+  { area:"er", q:"What is a grievance procedure, and why do timelines matter?",
+    a:"A formal, step-by-step process in a CBA for resolving disputes, escalating toward arbitration if unresolved. HR often receives, investigates, and responds at the early steps. Missing a deadline can waive management's rights, so timelines are critical." },
+  { area:"er", q:"Duty to bargain (under the NLRA).",
+    a:"Employers must bargain in good faith with the union over mandatory subjects: wages, hours, and working conditions. Unilaterally changing something covered by the CBA, even with good intentions, can be an unfair labor practice (ULP)." },
+  { area:"er", q:"Past practice doctrine.",
+    a:"If management has consistently handled something a certain way over time, a union can argue it has become a binding past practice even if it is not written in the CBA. Be careful with informal 'we've always done it this way' habits." },
+  { area:"er", q:"What is a management rights clause?",
+    a:"CBA language reserving certain decisions to management, such as hiring, direction of work, and operational decisions. Knowing what your clause covers matters before you act." },
+  { area:"er", q:"Progressive discipline and its role in just cause.",
+    a:"A graduated sequence of corrective steps, for example verbal warning, written warning, suspension, termination. It is not always legally required, but it is expected under most CBAs and important for documenting and demonstrating just cause. Document every step." },
+  { area:"er", q:"Alternative Dispute Resolution (ADR): the main methods.",
+    a:"Mediation: a neutral facilitates the parties' own agreement, typically non-binding. Arbitration: a neutral hears both sides and issues a binding, enforceable decision, like a private judge. Negotiation: direct discussion with no third party. Conciliation: like mediation but the conciliator more actively suggests solutions, common in labor contexts." },
+  { area:"er", q:"Mediation vs. arbitration: the key difference.",
+    a:"In mediation the neutral third party only facilitates, the parties craft their own resolution, and it is usually non-binding. In arbitration the neutral third party decides the outcome, and that decision is usually binding and enforceable." }
+];
+
+/* ============================================================
+   APP LOGIC
+   ============================================================ */
+
+const stage = document.getElementById('stage');
+const filtersEl = document.getElementById('filters');
+const progressEl = document.getElementById('progress');
+
+const STORE_KEY = 'sphr-flashcards-v1';
+let state = loadState();
+let activeArea = 'all';
+let queue = [];
+let idx = 0;
+let showingAnswer = false;
+let stillOnly = false;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    return raw ? JSON.parse(raw) : { known: {} };
+  } catch (e) { return { known: {} }; }
+}
+function saveState() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+function cardId(c) { return c.area + '::' + c.q; }
+
+function buildFilters() {
+  filtersEl.innerHTML = '';
+  const all = document.createElement('button');
+  all.className = 'chip' + (activeArea === 'all' ? ' active' : '');
+  all.innerHTML = 'All areas <span class="ct">' + CARDS.length + '</span>';
+  all.onclick = () => { activeArea = 'all'; rebuild(); };
+  filtersEl.appendChild(all);
+
+  Object.entries(AREAS).forEach(([key, a]) => {
+    const n = CARDS.filter(c => c.area === key).length;
+    const b = document.createElement('button');
+    b.className = 'chip' + (activeArea === key ? ' active' : '');
+    b.innerHTML = a.name + ' <span class="ct">' + n + '</span>';
+    b.onclick = () => { activeArea = key; rebuild(); };
+    filtersEl.appendChild(b);
+  });
+}
+
+function pool() {
+  let p = CARDS.filter(c => activeArea === 'all' || c.area === activeArea);
+  if (stillOnly) p = p.filter(c => !state.known[cardId(c)]);
+  return p;
+}
+
+function rebuild() {
+  queue = pool();
+  shuffle(queue);
+  idx = 0;
+  showingAnswer = false;
+  buildFilters();
+  render();
+  updateProgress();
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function updateProgress() {
+  const scope = CARDS.filter(c => activeArea === 'all' || c.area === activeArea);
+  const known = scope.filter(c => state.known[cardId(c)]).length;
+  progressEl.textContent = known + ' of ' + scope.length + ' marked known in this view';
+}
+
+function render() {
+  if (queue.length === 0) {
+    stage.innerHTML = '<div class="done">Nothing left in this stack.<span>Try another area, reset progress, or shuffle the full deck.</span></div>';
+    return;
+  }
+  if (idx >= queue.length) {
+    stage.innerHTML = '<div class="done">You made it through the stack.<span>Shuffle to go again, or switch to reviewing what is still hard.</span></div>';
+    return;
+  }
+
+  const c = queue[idx];
+  const area = AREAS[c.area];
+  const known = !!state.known[cardId(c)];
+
+  const tag = known
+    ? '<span class="status-tag tag-got">marked known</span>'
+    : '<span class="status-tag tag-still">still learning</span>';
+
+  stage.innerHTML = `
+    <div class="card ${showingAnswer ? 'is-answer' : ''}" id="card">
+      <div class="card-area">${area.name}</div>
+      <div class="card-side">${showingAnswer ? 'answer' : 'question'}</div>
+      <div class="card-body">${showingAnswer ? c.a : c.q}</div>
+      <div class="flip-hint">${showingAnswer ? 'tap to see the question' : 'tap to reveal'}</div>
+      <div style="text-align:center">${tag}</div>
+    </div>
+    <div class="judge">
+      <button class="still" id="still">Still learning</button>
+      <button class="got" id="got">Got it</button>
+    </div>
+    <div class="nav">
+      <button id="prev">&larr; back</button>
+      <span class="count">${idx + 1} / ${queue.length}</span>
+      <button id="next">skip &rarr;</button>
+    </div>
+  `;
+
+  document.getElementById('card').onclick = () => { showingAnswer = !showingAnswer; render(); };
+  document.getElementById('got').onclick = (e) => { e.stopPropagation(); mark(c, true); };
+  document.getElementById('still').onclick = (e) => { e.stopPropagation(); mark(c, false); };
+  document.getElementById('next').onclick = () => { advance(); };
+  document.getElementById('prev').onclick = () => { idx = Math.max(0, idx - 1); showingAnswer = false; render(); };
+}
+
+function mark(c, known) {
+  if (known) state.known[cardId(c)] = true;
+  else delete state.known[cardId(c)];
+  saveState();
+  updateProgress();
+  advance();
+}
+
+function advance() {
+  idx++;
+  showingAnswer = false;
+  render();
+}
+
+document.getElementById('shuffle').onclick = () => { stillOnly = false; rebuild(); };
+document.getElementById('onlyStill').onclick = () => { stillOnly = true; rebuild(); };
+document.getElementById('reset').onclick = () => {
+  if (confirm('Clear all progress in every area?')) { state = { known: {} }; saveState(); stillOnly = false; rebuild(); }
+};
+
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); showingAnswer = !showingAnswer; render(); }
+  if (e.code === 'ArrowRight') advance();
+  if (e.code === 'ArrowLeft') { idx = Math.max(0, idx - 1); showingAnswer = false; render(); }
+});
+
+rebuild();
+</script>
+</body>
+</html>
