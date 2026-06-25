@@ -283,8 +283,7 @@ const AREAS = {
   tm:    { name: "Talent Management & Development" },
   tr:    { name: "Total Rewards" },
   law:   { name: "Federal Laws, Agencies & Compliance" },
-  er:    { name: "Employee & Labor Relations" },
-  exam:  { name: "Test-Taking Strategy & Patterns" }
+  er:    { name: "Employee & Labor Relations" }
 };
 
 const CARDS = [
@@ -582,41 +581,103 @@ const CARDS = [
   { area:"law", q:"OSHA violation categories, most to least severe?",
     a:"Willful, repeated, serious, other-than-serious, de minimis (plus failure-to-abate). 'Serious' requires a substantial probability of death or serious harm that the employer knew or should have known about. 'Significant' is not a real category." },
 
-  // ---------- Test-Taking Strategy & Patterns ----------
-  { area:"exam", q:"What should you do before evaluating any answer choices?",
-    a:"Find the qualifying or signal word in the stem and let it, not the main noun, drive your choice. The same topic has different right answers depending on the qualifier. The most common miss is grabbing the obvious association with a noun in the stem while ignoring the qualifier." },
-  { area:"exam", q:"How do you know whether to pick a broad/strategic answer or a narrow/practical one?",
-    a:"Match the altitude of your answer to the altitude of the question. 'Primarily, fundamentally, key difference' means rise to the broad, conceptual answer (for example scope and risk exposure). 'Most frequently, most common, best first step' means drop to the practical, cheap, scalable answer (for example flexible work schedules). There is no fixed 'always pick strategic' rule, read the altitude cue each time." },
-  { area:"exam", q:"When a stem says 'unintended consequence,' what kind of answer are you looking for?",
-    a:"The second-order, surprising side effect, not the obvious intended use. Technology questions love this: the intended thing is efficiency or capability, the unintended thing is erosion of human connection, judgment, or relationships. Actively reject the on-the-nose answer." },
-  { area:"exam", q:"A stem asks what benefit is 'most frequently offered.' How do you choose?",
-    a:"Favor the option that is cheapest, easiest to administer, and broadly applicable. Reject the generous-sounding or aspirational option (for example 'parallel career advancement'). Organizations default to simple and scalable." },
-  { area:"exam", q:"A stem asks what is 'most important' when starting a process with outside parties. What's the logic?",
-    a:"Identify the biggest risk you create just by starting the process, and pick the answer that protects against it. Good-practice and evaluation steps are real but secondary to protecting yourself (for example an NDA before sharing confidential info in an RFP)." },
-  { area:"exam", q:"A stem asks for the 'best reason for the employer to use' something. What trap is set?",
-    a:"A distractor will offer a benefit to the other party (for example a tax advantage to the employee). Match the answer to the perspective the stem names. Ask: whose reason is this?" },
-  { area:"exam", q:"Why do you keep picking answers that are real, good HR things but still wrong?",
-    a:"Many distractors are true of HR in general, or true of a neighboring concept. The question is not 'is this a good thing?' It is 'is this the thing this specific method, tool, or situation is known for?' Read the stem narrowly." },
-  { area:"exam", q:"For 'an advantage of method X' questions, how do you find the answer?",
-    a:"Match the advantage to that method's defining feature, and watch for distractors that name a different method's signature benefit. Example: 'links to organizational goals' belongs to results or MBO methods, not behavioral methods." },
-  { area:"exam", q:"An answer says a tool 'replaces the need for' feedback, coaching, or another ongoing human practice. What now?",
-    a:"Treat it as a distractor. Good HR tools enable and support human practices, they rarely replace them." },
-  { area:"exam", q:"One option is a phrase you don't recognize as a standard term (for example 'proprietary resources'). What does that signal?",
-    a:"Made-up or non-standard terms are almost always distractors. If it is not a recognized name for the thing described, eliminate it." },
-  { area:"exam", q:"On a 'best evidence of commitment' or 'most effective system' question, which option wins?",
-    a:"The one about strategic alignment or integration across the system, not a specific tool, model, or individual activity. Gut-check: 'which option could exist while the rest of the system is broken?' That one is the distractor." },
-  { area:"exam", q:"On a 'what must HR do FIRST' question, what's the answer pattern?",
-    a:"The option that establishes strategy, alignment, or direction. Hierarchy: strategy, then structure, then process, then cost." },
-  { area:"exam", q:"When the audience is executives, board, or leadership, what framing wins?",
-    a:"Financial or strategic-business terms: ROI, business case, bottom-line impact. HR's recurring lesson is to justify in business terms, not HR terms." },
-  { area:"exam", q:"Two statistics red flags to watch for on the exam?",
-    a:"(1) Regression shows association, not causation, so distrust any option claiming a tool 'shows the cause.' (2) Regression's superpower is controlling for confounding variables, so the right answer usually involves isolating one factor from a tangle." },
-  { area:"exam", q:"The correlation-vs-causation trap on the exam?",
-    a:"The exam sometimes states causation where the research is really correlation (for example gender diversity to performance, or generational values). Answer per the exam's framing, but keep a private asterisk." },
-  { area:"exam", q:"When a generational question names a birth-year cutoff, what's it testing?",
-    a:"The standard generational-values profile. Match the lever to the cohort, and watch for a distractor that is secretly another generation's priority (for example 'job security' is Boomer-coded)." },
-  { area:"exam", q:"Distractor type: an option that is a 'means to produce' the right answer?",
-    a:"It is not the answer itself. Example: 'run a pilot program' produces data you would use to calculate ROI, ROI is the justification, the pilot is just a step." }
+  // ============================================================
+  //   ADDED CONCEPT CARDS (from the card catalog)
+  //   Concept-only: distractor "hooks" and exam-strategy notes
+  //   were stripped. Cards already covered above were skipped.
+  // ============================================================
+
+  // ---------- Added: Leadership & Strategy ----------
+  { area:"strat", q:"What is the difference between a line position and a staff position?",
+    a:"Line roles produce the core product or service, generate revenue, and sit in the direct chain of command. Staff roles such as HR, legal, finance, and IT support and advise the line with specialized expertise. Staff usually holds advisory authority, sometimes narrow functional authority over its own specialty. HR is a staff function." },
+  { area:"strat", q:"What does HCRA (Human Capital Risk Analysis) identify?",
+    a:"Risks that stem from the workforce: key-person dependency, skills and succession gaps, turnover, and an aging workforce. The anchor idea is treating the workforce as an asset whose risks must be identified and planned for." },
+  { area:"strat", q:"What type of analysis weighs both tangible and intangible costs on the same scale?",
+    a:"Cost-benefit analysis. It deliberately compares hard-dollar costs with soft costs such as morale, reputation, and stress to judge whether something is worth doing. A balance sheet is numbers only, and qualitative analysis covers only the non-numerical side." },
+  { area:"strat", q:"What is the key information reviewed before an acquisition?",
+    a:"A thorough review of the target company's financial and employment practices, including valuing the nonfinancial factors that affect total worth. Items like performance reviews or facilities records may also be reviewed, but they are secondary to the financial and employment practices." },
+  { area:"strat", q:"What gives employees a working channel to report misconduct: a policy or a hotline?",
+    a:"A hotline, the functioning reporting mechanism. A policy or procedure only states that reporting should happen; the hotline is what actually lets it happen." },
+  { area:"strat", q:"What are BI (Business Intelligence) tools?",
+    a:"Tools that collect, analyze, and present data to generate insights for decisions, such as turnover trends, time-to-fill, and pay equity. BI turns raw data into understanding you can act on." },
+  { area:"strat", q:"What does PM (project management) refer to, and why is it not a data-analysis tool?",
+    a:"Project management is the planning and overseeing of a project to completion, covering scope, schedule, budget, and tasks. It coordinates work rather than interrogating datasets. (PM is an overloaded acronym that can also mean product or performance management.)" },
+  { area:"strat", q:"What is a KPI, and how does it differ from an analytics tool?",
+    a:"A Key Performance Indicator is a single measurable metric that tracks performance against a goal, such as turnover rate or time-to-hire. A KPI is a measure you watch, whereas a BI tool is what does the analyzing." },
+  { area:"strat", q:"Who created the three-stage change model, and what are its stages?",
+    a:"Kurt Lewin. The stages are Unfreeze, Change (move), and Refreeze. By contrast, Kotter is the 8-step change model and Fayol set out principles of administrative management." },
+  { area:"strat", q:"What are the 'business elements' of an organization?",
+    a:"Demographics, products, technology, and processes. They come after the prior building blocks of vision, mission, values, and goals, which establish why the organization exists." },
+  { area:"strat", q:"Name two recognized categories of business risk.",
+    a:"Strategic risk and integrity (compliance) risk. A budget is an internal tool rather than a risk category." },
+  { area:"strat", q:"What three things does a balance sheet report?",
+    a:"Assets, liabilities, and equity. The relationship is assets equal liabilities plus equity." },
+  { area:"strat", q:"What does global geopolitical risk scanning consider?",
+    a:"An external scan of business locations' physical geography, human geography, and politics. It looks outward at the world rather than at internal employees, and it spans all locations globally, not just the home country." },
+  { area:"strat", q:"What type of planning prepares an organization for unforeseen disruptions, building resilience and recovery capability?",
+    a:"Contingency planning. It specifically targets readiness for disruption." },
+
+  // ---------- Added: Federal Laws, Agencies & Compliance ----------
+  { area:"law", q:"What does OHS (Occupational Health and Safety) refer to?",
+    a:"Protecting worker health, safety, and welfare on the job by preventing hazards and ensuring safety compliance." },
+
+  // ---------- Added: Workforce Planning & Talent Acquisition ----------
+  { area:"wpta", q:"Which kinds of factors belong in a report describing a region's labor market?",
+    a:"Demographic factors of the people in the labor pool: birthrates and ages, unemployment rates, educational disparities, immigration, and retirements. Industry competitors are not labor-market demographics; they belong in a SWOT analysis." },
+  { area:"wpta", q:"What are the three types of job analysis questionnaires, and what distinguishes them?",
+    a:"Open-ended (free-form answers), interview-style (a guided sequence on paper), and highly structured (fixed questions with fixed response options). They form a spectrum from loose to tightly constrained." },
+  { area:"wpta", q:"What is the difference between horizontal and vertical loading when redesigning a job?",
+    a:"Horizontal loading adds more tasks of similar complexity, making the job wider at the same level. Vertical loading adds decision-making responsibility and authority, making the job deeper." },
+  { area:"wpta", q:"Which sourcing change most improves the quality of new hires rather than just the volume of applicants?",
+    a:"An employee referral program, which reliably brings in more qualified hires. College events, resume mining, and passive sourcing mostly raise the quantity of applicants." },
+  { area:"wpta", q:"What is the difference between reliability and validity in selection measurement?",
+    a:"Reliability is consistency, getting the same result repeatedly. Validity is accuracy, measuring the right thing and relating to job performance. A measure can be reliable without being valid, but it cannot be valid without being reliable." },
+  { area:"wpta", q:"Different interviewers hear the same answer but score it very differently. Which measurement quality is failing?",
+    a:"Inter-rater reliability, the degree of agreement between different raters scoring the same thing. It improves with anchored rating scales and rater training." },
+  { area:"wpta", q:"What is split-halves reliability?",
+    a:"A test's internal consistency: split it into two halves, score each, and check whether the halves agree. It is about the test agreeing with itself, not about raters agreeing with each other." },
+  { area:"wpta", q:"What is content validity?",
+    a:"Whether a selection tool's content represents the actual job, so its items reflect the real knowledge, skills, and duties required. A typing test for a data-entry job has strong content validity." },
+  { area:"wpta", q:"What is concurrent validity?",
+    a:"A type of criterion validity in which you test current employees and compare their scores to their present performance, at the same time. Its sibling is predictive validity, which tests applicants and waits to see whether scores predict future performance." },
+  { area:"wpta", q:"What is UGESP?",
+    a:"The Uniform Guidelines on Employee Selection Procedures, federal guidelines for using selection tools such as tests, interviews, and scorecards fairly and defensibly. They are grounded in reliability and validity." },
+  { area:"wpta", q:"Targeted social media most directly enhances which recruiting activity?",
+    a:"Active sourcing, proactively finding and contacting qualified candidates who have not applied. Employer branding is an outcome of social media presence rather than what it directly enhances." },
+
+  // ---------- Added: Talent Management & Development ----------
+  { area:"tm", q:"A goal is specific, measurable, achievable, and time-bound but does not advance a company priority. Which SMART element is missing?",
+    a:"Relevant. The goal must align to business priorities and connect the role's output to enterprise outcomes, giving a clear line of sight to strategy." },
+  { area:"tm", q:"What kind of training best prepares managers for difficult change conversations such as layoffs?",
+    a:"Change management training, for example scenario-based videos, which builds adaptable empathy and change-communication skill. A memorized script risks sounding insincere, and hiring-manager training is the wrong domain." },
+
+  // ---------- Added: Total Rewards ----------
+  { area:"tr", q:"What is job evaluation?",
+    a:"The process of determining a job's internal worth relative to other jobs in the organization. Its methods fall into two families: quantitative (point-factor, factor comparison) and nonquantitative or whole-job (classification, ranking)." },
+  { area:"tr", q:"How does the point-factor job evaluation method work?",
+    a:"Break the job into compensable factors (skill, effort, responsibility, conditions), score each factor's degree in points, sum the points, and rank by total. The point total then maps to pay grades." },
+  { area:"tr", q:"How does the factor comparison job evaluation method work?",
+    a:"Compare jobs factor by factor against benchmark jobs and allocate dollar values to each factor. It produces a dollar value directly rather than points, and is more complex than point-factor." },
+  { area:"tr", q:"What are perquisites?",
+    a:"Voluntary, status-linked extras beyond pay and standard benefits, such as a company car, reserved parking, club memberships, or executive travel. They are discretionary because no law requires them." },
+  { area:"tr", q:"What is equity-based compensation, and what is its purpose?",
+    a:"Paying executives partly with ownership through stocks or stock options. Its purpose is to align executives' interests with shareholders', since they profit only when company value rises. Here equity means ownership, not fairness." },
+  { area:"tr", q:"How does the classification job evaluation method work?",
+    a:"Define ordered categories or grades in advance by task and skill level, then slot each job into the matching category, with higher categories paying more. It is qualitative, with no scoring. The federal GS system is the classic example." },
+  { area:"tr", q:"What is the slotting (pricing) method of job evaluation?",
+    a:"Assigning a job's value by matching it to one specific comparable job with equivalent requirements. Unlike classification, which sorts a job into a broad category, slotting pegs the job to a single comparator." },
+  { area:"tr", q:"What is a compensable factor?",
+    a:"An element of a job that an organization decides is worth paying for, such as skill, effort, responsibility, or working conditions. It is an ingredient that quantitative methods score, not a method itself." },
+
+  // ---------- Added: Employee & Labor Relations ----------
+  { area:"er", q:"What are the five negotiation and conflict styles on the assertiveness by cooperativeness grid?",
+    a:"Competitive (high assertiveness, low cooperativeness), Accommodating (low, high), Avoiding (low, low), Collaborating (high, high), and Compromising (moderate, moderate). The two axes are how hard you push your own goal and how much you tend to the other party's." },
+  { area:"er", q:"What single factor decides whether competitive or collaborative negotiation is the prudent choice?",
+    a:"Whether the parties' goals conflict or align. Opposing interests with scarce resources call for a competitive approach, while shared goals call for a collaborative one." },
+  { area:"er", q:"When is avoiding appropriate, and when is accommodating appropriate?",
+    a:"Avoiding means sidestepping trivial or not-yet-ripe issues, and is wrong when something urgent must be resolved. Accommodating means yielding because the relationship or the other party's need outweighs your stake, and is wrong when you hold a legitimate interest you cannot abandon. In short, avoiding lets it go, accommodating loses on purpose." },
+  { area:"er", q:"What does positional bargaining focus on, and how does it differ from interest-based bargaining?",
+    a:"Positional bargaining has each side defend fixed, opposing positions, the competitive win-lose mode. Interest-based bargaining explores the underlying shared interests behind each position, the collaborative mode. Positional defends a position; interest-based explores why each side wants what it wants." }
 ];
 
 /* ============================================================
