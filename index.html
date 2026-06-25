@@ -283,7 +283,8 @@ const AREAS = {
   tm:    { name: "Talent Management & Development" },
   tr:    { name: "Total Rewards" },
   law:   { name: "Federal Laws, Agencies & Compliance" },
-  er:    { name: "Employee & Labor Relations" }
+  er:    { name: "Employee & Labor Relations" },
+  exam:  { name: "Test-Taking Strategy & Patterns" }
 };
 
 const CARDS = [
@@ -511,7 +512,111 @@ const CARDS = [
   { area:"er", q:"Alternative Dispute Resolution (ADR): the main methods.",
     a:"Mediation: a neutral facilitates the parties' own agreement, typically non-binding. Arbitration: a neutral hears both sides and issues a binding, enforceable decision, like a private judge. Negotiation: direct discussion with no third party. Conciliation: like mediation but the conciliator more actively suggests solutions, common in labor contexts." },
   { area:"er", q:"Mediation vs. arbitration: the key difference.",
-    a:"In mediation the neutral third party only facilitates, the parties craft their own resolution, and it is usually non-binding. In arbitration the neutral third party decides the outcome, and that decision is usually binding and enforceable." }
+    a:"In mediation the neutral third party only facilitates, the parties craft their own resolution, and it is usually non-binding. In arbitration the neutral third party decides the outcome, and that decision is usually binding and enforceable." },
+
+  // ---------- New content: Leadership & Strategy ----------
+  { area:"strat", q:"Why insist an accountant take vacation while another employee covers the role?",
+    a:"To facilitate discovery of fraudulent activities. Mandatory vacation is an internal control. Many frauds need constant maintenance, so a substitute in the chair surfaces the scheme." },
+  { area:"strat", q:"The classic anti-fraud control trio?",
+    a:"Mandatory vacation, job rotation, and separation of duties." },
+  { area:"strat", q:"To make the best outsourcing decision, HR must first do what?",
+    a:"Establish an effective core strategy. Strategy defines what is core (keep) versus non-core (a candidate for outsourcing). Cost savings is a goal or outcome, not the first step." },
+  { area:"strat", q:"Who are the inside members of a board of directors?",
+    a:"Current employees, officers, or executives of the organization who also hold a board seat. Former employees, affiliated bankers or advisors, and pure shareholders are not inside directors." },
+  { area:"strat", q:"Conventional corporation vs. worker co-op board composition?",
+    a:"Conventional boards are designed for a majority of outside or independent directors (oversight of management). Worker co-ops are dominated by worker-owners, who are inside directors by definition (current employees). Same label, opposite design intent." },
+  { area:"strat", q:"What is the established research link to strong corporate financial performance in top management teams?",
+    a:"Gender diversity (per exam framing). Caution: the real research is largely correlational, not proven causal." },
+  { area:"strat", q:"What is an inpatriate, and why is it a trap in 'build international presence' questions?",
+    a:"An inpatriate is an employee brought from a foreign subsidiary into corporate HQ. That moves talent away from the new region, so it does not build local relationships there. For building presence, the answer is managing the corporate brand and local interests (the global-local balance)." },
+  { area:"strat", q:"In the HR shared services model, how do you tell a Center of Excellence from employee self-service?",
+    a:"Match the model to its customer. Customer is managers and HR practitioners needing expert support: Center of Excellence (specialists in comp, talent, L&D). Customer is individual employees doing routine transactions: employee self-service. If it is software or data: HRIS." },
+  { area:"strat", q:"In what key areas are international and domestic operations primarily different?",
+    a:"Scope and risk exposure. Scope expands (countries, currencies, laws, cultures, regulators), risk diversifies (political, currency, compliance, security, reputational). Functional pairs like 'recruitment and training' are sub-areas, not the primary difference." },
+  { area:"strat", q:"Most important step when seeking an RFP from vendors?",
+    a:"Obtaining a non-disclosure agreement. You expose confidential organizational info to multiple outside (sometimes competing) vendors, so protecting that info is the foundational safeguard. Sequence: protect (NDA), solicit broadly, evaluate (licenses, certs), manage commitments (non-binding language)." },
+
+  // ---------- New content: Workforce Planning & Talent Acquisition ----------
+  { area:"wpta", q:"What does an availability analysis (in an affirmative action plan) determine?",
+    a:"The number of qualified minorities and women available in the relevant labor market. It pairs with utilization analysis (who you currently employ). The gap equals underutilization, which triggers placement goals." },
+  { area:"wpta", q:"Utilization analysis vs. availability analysis?",
+    a:"Utilization is who you have inside. Availability is the qualified women and minorities available outside in the labor market. The difference between them reveals underutilization." },
+  { area:"wpta", q:"'Born after 1980' retention strategy focuses primarily on what?",
+    a:"Building employee relationships (Millennials value connection, mentoring, and community). Contrast: older generations value job security, stability, and pay or benefits." },
+
+  // ---------- New content: Talent Management & Development ----------
+  { area:"tm", q:"Best evidence of an organization's commitment to performance management?",
+    a:"Aligning objectives and processes. Performance management is a continuous system linking individual work to organizational strategy. Tools, competency models, and development plans are components, alignment is the functioning system." },
+  { area:"tm", q:"Key disadvantage of typical competency-based models?",
+    a:"They lack the context in which capabilities are applied. A model lists what skills matter but not when, where, or how they should show up. The same competency (for example decisiveness) helps in one situation and hurts in another." },
+  { area:"tm", q:"What does a competency model define proficiency levels for?",
+    a:"To distinguish average from superior performance and to set minimum baseline capabilities. Note: these are things competency models are good at, so they show up as distractors on the 'disadvantage' question." },
+  { area:"tm", q:"What does a competency model do that a job description does not?",
+    a:"A competency model clarifies the behaviors (tied to values and success) that drive performance, often across roles. A job description lists the duties and technical requirements of one specific position. 'Technical requirements' or 'position description' language points away from competency models." },
+  { area:"tm", q:"Best way to justify training to executive management?",
+    a:"Show anticipated return on investment (ROI). Executives decide in financial terms. 'Operations will improve' is the softer, qualitative version ROI absorbs, and a pilot is a method to gather evidence, not a justification." },
+  { area:"tm", q:"What are pulse surveys best at measuring?",
+    a:"Action planning impact, whether changes you implemented actually moved the needle. They are short, frequent, and repeated, so they track movement after an intervention. Distractors describe assessing a static state (leader effectiveness, team readiness, onboarding)." },
+  { area:"tm", q:"Name the four appraisal method families and each one's signature advantage.",
+    a:"Behavioral (BARS, BOS, critical incidents): use relevant, job-specific performance dimensions, reduce bias, but expensive to build. Results (MBO): link individual performance to organizational goals, objective outcomes, but can ignore the 'how.' Comparative (ranking, forced distribution): easy, force differentiation, but no absolute standard. Trait (graphic rating scale): cheap and fast, but vague and subjective." },
+  { area:"tm", q:"What is the unintended training need created by increased electronic communication?",
+    a:"Judgment and relationship skills. Tools were adopted for efficiency (intended), the unplanned side effect was eroded interpersonal communication: misread tone, lost nuance, weakened relationships. 'Apply the technology' is the intended, and therefore trap, answer." },
+
+  // ---------- New content: Total Rewards ----------
+  { area:"tr", q:"What is the recognized HR use of multiple regression analysis?",
+    a:"To defend against a charge of sex or race discrimination based on salary. It isolates whether protected-class status still predicts pay after controlling for legitimate factors (experience, tenure, job grade, performance)." },
+  { area:"tr", q:"What is broadbanding?",
+    a:"A compensation structure that collapses many narrow pay grades into a few wide bands. It allows lateral movement and skill growth without requiring promotion." },
+  { area:"tr", q:"What business need drives the use of broadbanding?",
+    a:"Encouraging a widely skilled (flexible, multi-skilled) workforce. It travels with flatter org structures. It tends to increase, not reduce, training." },
+  { area:"tr", q:"What is the strategic advantage of a job-based pay system?",
+    a:"It increases the organization's competitive advantage by aligning pay to the relative worth of jobs, helping attract and retain the right people and control labor costs strategically. Distractors borrow benefits from performance management (merit raises, goal setting, feedback)." },
+  { area:"tr", q:"What is the classic employer reason to use stock options, and what's the modern caveat?",
+    a:"Classic reason: enhance compensation without increasing recordable expenses (and align employees with performance while conserving cash). Caveat: after FAS 123R (2006), companies must expense the fair value of options, so the 'no expense' advantage is much weaker now. ERISA does not cover stock options." },
+  { area:"tr", q:"Most frequently offered benefit to dual-career couples in the same organization?",
+    a:"Flexible work schedules, the cheapest, easiest, and most broadly applicable option. (Parallel career advancement is the idealized trap, shared PTO banks are impractical.)" },
+
+  // ---------- New content: Federal Laws, Agencies & Compliance ----------
+  { area:"law", q:"Failing to maintain Safety Data Sheets (SDS) is what OSHA violation category?",
+    a:"Other-than-serious. It is an administrative or recordkeeping failure that does not by itself cause death or serious physical harm." },
+  { area:"law", q:"OSHA violation categories, most to least severe?",
+    a:"Willful, repeated, serious, other-than-serious, de minimis (plus failure-to-abate). 'Serious' requires a substantial probability of death or serious harm that the employer knew or should have known about. 'Significant' is not a real category." },
+
+  // ---------- Test-Taking Strategy & Patterns ----------
+  { area:"exam", q:"What should you do before evaluating any answer choices?",
+    a:"Find the qualifying or signal word in the stem and let it, not the main noun, drive your choice. The same topic has different right answers depending on the qualifier. The most common miss is grabbing the obvious association with a noun in the stem while ignoring the qualifier." },
+  { area:"exam", q:"How do you know whether to pick a broad/strategic answer or a narrow/practical one?",
+    a:"Match the altitude of your answer to the altitude of the question. 'Primarily, fundamentally, key difference' means rise to the broad, conceptual answer (for example scope and risk exposure). 'Most frequently, most common, best first step' means drop to the practical, cheap, scalable answer (for example flexible work schedules). There is no fixed 'always pick strategic' rule, read the altitude cue each time." },
+  { area:"exam", q:"When a stem says 'unintended consequence,' what kind of answer are you looking for?",
+    a:"The second-order, surprising side effect, not the obvious intended use. Technology questions love this: the intended thing is efficiency or capability, the unintended thing is erosion of human connection, judgment, or relationships. Actively reject the on-the-nose answer." },
+  { area:"exam", q:"A stem asks what benefit is 'most frequently offered.' How do you choose?",
+    a:"Favor the option that is cheapest, easiest to administer, and broadly applicable. Reject the generous-sounding or aspirational option (for example 'parallel career advancement'). Organizations default to simple and scalable." },
+  { area:"exam", q:"A stem asks what is 'most important' when starting a process with outside parties. What's the logic?",
+    a:"Identify the biggest risk you create just by starting the process, and pick the answer that protects against it. Good-practice and evaluation steps are real but secondary to protecting yourself (for example an NDA before sharing confidential info in an RFP)." },
+  { area:"exam", q:"A stem asks for the 'best reason for the employer to use' something. What trap is set?",
+    a:"A distractor will offer a benefit to the other party (for example a tax advantage to the employee). Match the answer to the perspective the stem names. Ask: whose reason is this?" },
+  { area:"exam", q:"Why do you keep picking answers that are real, good HR things but still wrong?",
+    a:"Many distractors are true of HR in general, or true of a neighboring concept. The question is not 'is this a good thing?' It is 'is this the thing this specific method, tool, or situation is known for?' Read the stem narrowly." },
+  { area:"exam", q:"For 'an advantage of method X' questions, how do you find the answer?",
+    a:"Match the advantage to that method's defining feature, and watch for distractors that name a different method's signature benefit. Example: 'links to organizational goals' belongs to results or MBO methods, not behavioral methods." },
+  { area:"exam", q:"An answer says a tool 'replaces the need for' feedback, coaching, or another ongoing human practice. What now?",
+    a:"Treat it as a distractor. Good HR tools enable and support human practices, they rarely replace them." },
+  { area:"exam", q:"One option is a phrase you don't recognize as a standard term (for example 'proprietary resources'). What does that signal?",
+    a:"Made-up or non-standard terms are almost always distractors. If it is not a recognized name for the thing described, eliminate it." },
+  { area:"exam", q:"On a 'best evidence of commitment' or 'most effective system' question, which option wins?",
+    a:"The one about strategic alignment or integration across the system, not a specific tool, model, or individual activity. Gut-check: 'which option could exist while the rest of the system is broken?' That one is the distractor." },
+  { area:"exam", q:"On a 'what must HR do FIRST' question, what's the answer pattern?",
+    a:"The option that establishes strategy, alignment, or direction. Hierarchy: strategy, then structure, then process, then cost." },
+  { area:"exam", q:"When the audience is executives, board, or leadership, what framing wins?",
+    a:"Financial or strategic-business terms: ROI, business case, bottom-line impact. HR's recurring lesson is to justify in business terms, not HR terms." },
+  { area:"exam", q:"Two statistics red flags to watch for on the exam?",
+    a:"(1) Regression shows association, not causation, so distrust any option claiming a tool 'shows the cause.' (2) Regression's superpower is controlling for confounding variables, so the right answer usually involves isolating one factor from a tangle." },
+  { area:"exam", q:"The correlation-vs-causation trap on the exam?",
+    a:"The exam sometimes states causation where the research is really correlation (for example gender diversity to performance, or generational values). Answer per the exam's framing, but keep a private asterisk." },
+  { area:"exam", q:"When a generational question names a birth-year cutoff, what's it testing?",
+    a:"The standard generational-values profile. Match the lever to the cohort, and watch for a distractor that is secretly another generation's priority (for example 'job security' is Boomer-coded)." },
+  { area:"exam", q:"Distractor type: an option that is a 'means to produce' the right answer?",
+    a:"It is not the answer itself. Example: 'run a pilot program' produces data you would use to calculate ROI, ROI is the justification, the pilot is just a step." }
 ];
 
 /* ============================================================
